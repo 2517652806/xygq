@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Province;
+use App\Models\Original;
+use App\Models\Singsong;
 use Illuminate\Http\Request;
 
 class ProvinceController extends Controller
@@ -79,5 +81,173 @@ class ProvinceController extends Controller
         $registeredInfo = $request->except('password_confirmation');
         $registeredInfo['password'] = bcrypt($registeredInfo['password']);
         return $registeredInfo;
+    }
+    //
+    /**
+     * 省/市级端获取所有节目
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function getAllSong(Request $request)
+    {
+        $table =  $request['table_name'];
+        $state = $request['state'];
+        if ($table == 'original')
+        {
+            $data = Original::getAllSong($state);
+            return $data ?
+                json_success('获取成功!', $data, 200) :
+                json_fail('获取失败!', null, 100);
+        }
+        if ($table == 'singsong')
+        {
+            $data = Singsong::getAllSong($state);
+            return $data ?
+                json_success('获取成功!', $data, 200) :
+                json_fail('获取失败!', null, 100);
+        }
+    }
+
+
+    /**
+     * 省/市级端根据学校名查询节目
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function getSongBySchoolName(Request $request)
+    {
+        $table =  $request['table_name'];
+        $state = $request['state'];
+        $schoolName = $request['school_name'];
+        if ($table == 'original')
+        {
+            $data = Original::getSongBySchoolName($state,$schoolName);
+            return $data ?
+                json_success('获取成功!', $data, 200) :
+                json_fail('获取失败!', null, 100);
+        }
+        if ($table == 'singsong')
+        {
+            $data = Singsong::getSongBySchoolName($state,$schoolName);
+            return $data ?
+                json_success('获取成功!', $data, 200) :
+                json_fail('获取失败!', null, 100);
+        }
+    }
+
+    /**
+     * 省/市级端获取节目审批详情
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function getSongInfo(Request $request)
+    {
+        $table =  $request['table_name'];
+        $state = $request['state'];
+        $id = $request['id'];
+
+        if ($table == 'original')
+        {
+            $data = Original::getSongInfo($state,$id);
+            return $data ?
+                json_success('获取成功!', $data, 200) :
+                json_fail('获取失败!', null, 100);
+        }
+        if ($table == 'singsong')
+        {
+            $data = Singsong::getSongInfo($state,$id);
+            return $data ?
+                json_success('获取成功!', $data, 200) :
+                json_fail('获取失败!', null, 100);
+        }
+    }
+
+
+    /**
+     * 批量驳回
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+
+    public function songsOverrule(Request $request)
+    {
+        $table =  $request['table_name'];
+        $state = $request['state'];
+        $id = $request['id'];
+
+        if ($table == 'original')
+        {
+            $data = Original::songsOverrule($state,$id);
+            return $data ?
+                json_success('操作成功!', $data, 200) :
+                json_fail('操作失败!', null, 100);
+        }
+        if ($table == 'singsong')
+        {
+            $data = Singsong::songsOverrule($state,$id);
+            return $data ?
+                json_success('操作成功!', $data, 200) :
+                json_fail('操作失败!', null, 100);
+        }
+    }
+
+
+
+    /**
+     * 单个作品驳回
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+
+    public function songOverrule(Request $request)
+    {
+        $table =  $request['table_name'];
+        $state = $request['state'];
+        $id = $request['id'];
+        $why = $request['why'];
+        if ($table == 'original')
+        {
+            $data = Original::songOverrule($state,$id,$why);
+            return $data ?
+                json_success('操作成功!', $data, 200) :
+                json_fail('操作失败!', null, 100);
+        }
+        if ($table == 'singsong')
+        {
+            $data = Singsong::songOverrule($state,$id,$why);
+            return $data ?
+                json_success('操作成功!', $data, 200) :
+                json_fail('操作失败!', null, 100);
+        }
+    }
+
+
+
+
+    /**
+     * 作品通过
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+
+    public function songPass(Request $request)
+    {
+        $table =  $request['table_name'];
+        $state = $request['state'];
+        $id = $request['id'];
+        if ($table == 'original')
+        {
+            $data = Original::songPass($state,$id);
+            return $data ?
+                json_success('操作成功!', $data, 200) :
+                json_fail('操作失败!', null, 100);
+        }
+        if ($table == 'singsong')
+        {
+            $data = Singsong::songPass($state,$id);
+            return $data ?
+                json_success('操作成功!', $data, 200) :
+                json_fail('操作失败!', null, 100);
+        }
     }
 }

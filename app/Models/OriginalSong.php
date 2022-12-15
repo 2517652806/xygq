@@ -15,4 +15,9 @@ class OriginalSong extends Model
     protected $primaryKey = "id";
     // 指定不允许自动填充的字段，字段修改的黑名单
     protected $guarded = [];
+
+    public static function getOriginalSong()
+    {
+
+    }
 }
