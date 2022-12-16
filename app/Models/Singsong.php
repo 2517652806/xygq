@@ -16,6 +16,69 @@ class Singsong extends Model
     // 指定不允许自动填充的字段，字段修改的黑名单
     protected $guarded = [];
 
+
+    public static function get_trail($state)
+    {
+        try {
+            if ($state == '0')
+            {
+                $res = self::where('singsong_state','<=','2')
+                    ->select('school_name','id','updated_at','singsong_state')
+                    ->get();
+                return $res;
+            }
+            if($state == '1')
+            {
+                $res = self::where('singsong_state','>','2')
+                    ->select('school_name','id','updated_at','singsong_state')
+                    ->get();
+                return $res;
+            }
+        }catch (\Exception $e) {
+            logError('查询学校的审核记录失败！', [$e->getMessage()]);
+            return false;
+        }
+
+    }
+
+
+
+    public static function select_trail($state,$school_name)
+    {
+        try {
+            if ($state == '0')
+            {
+                $res = self::orwhere('school_name','like','%'.$school_name.'%')
+                    ->where('singsong_state','<=','2')
+                    ->select('school_name','id','updated_at','singsong_state')
+                    ->get();
+                return $res;
+            }
+            if($state == '1')
+            {
+                $res = self::orwhere('school_name','like','%'.$school_name.'%')
+                    ->where('singsong_state','>','2')
+                    ->select('school_name','id','updated_at','singsong_state')
+                    ->get();
+                return $res;
+            }
+        }catch (\Exception $e) {
+            logError('查询学校的审核记录失败！', [$e->getMessage()]);
+            return false;
+        }
+
+    }
+
+
+
+    public static function select_singsong_info($school_name)
+    {
+        $res = self::where('school_name',$school_name)
+            ->select()
+            ->get();
+        return $res;
+    }
+
     /**
      * 省/市级端获取传唱所有节目
      * @param $state
@@ -144,5 +207,33 @@ class Singsong extends Model
             logError('操作失败！', [$e->getMessage()]);
             return false;
         }
+    }
+
+
+    public static function singsong_update($school_name,$singsong_name,$singsong_howtime,$singsong_time,$singsong_author,$file)
+    {
+        $cnt = self::where('school_name', $school_name)
+            ->update([
+                'singsong_name' => $singsong_name,
+                'singsong_howtime' => $singsong_howtime,
+                'singsong_time' => $singsong_time,
+                'singsong_author' => $singsong_author,
+                'singsong_url' => $file,
+            ]);
+        return $cnt;
+    }
+
+    public static function singsong_create($school_name,$singsong_name,$singsong_howtime,$singsong_time,$singsong_author,$file)
+    {
+        $cnt = self::where('school_name', $school_name)
+            ->create([
+                'school_name' => $school_name,
+                'singsong_name' => $singsong_name,
+                'singsong_howtime' => $singsong_howtime,
+                'singsong_time' => $singsong_time,
+                'singsong_author' => $singsong_author,
+                'singsong_url' => $file,
+            ]);
+        return $cnt;
     }
 }

@@ -16,6 +16,59 @@ class Original extends Model
     // 指定不允许自动填充的字段，字段修改的黑名单
     protected $guarded = [];
 
+
+    public static function get_trail($state)
+    {
+        try {
+            if($state == '0')
+            {
+                $res = self::where('original_state','<=','2')
+                    ->select('school_name','id','updated_at','original_state')
+                    ->get();
+                return $res;
+            }
+            if($state == '1')
+            {
+                $res = self::where('original_state','>','2')
+                    ->select('school_name','id','updated_at','original_state')
+                    ->get();
+                return $res;
+            }
+        } catch (\Exception $e) {
+            logError('查询学校的审核记录失败！', [$e->getMessage()]);
+            return false;
+        }
+    }
+
+
+
+    public static function select_trail($state,$school_name)
+    {
+        try {
+            if($state == '0')
+            {
+                $res = self::orwhere('school_name','like','%'.$school_name.'%')
+                    ->where('original_state','<=','2')
+                    ->select('school_name','id','updated_at','original_state')
+                    ->get();
+                return $res;
+            }
+            if($state == '1')
+            {
+                $res = self::orwhere('school_name','like','%'.$school_name.'%')
+                    ->where('original_state','>','2')
+                    ->select('school_name','id','updated_at','original_state')
+                    ->get();
+                return $res;
+            }
+        } catch (\Exception $e) {
+            logError('查询学校的审核记录失败！', [$e->getMessage()]);
+            return false;
+        }
+    }
+
+
+
     /**
      * 省/市级端获取原创所有节目
      * @param $state
@@ -82,6 +135,10 @@ class Original extends Model
                 ->where('original.id', $id)
                 ->where('original_state', '=', $state)
                 ->get();
+//            $data = implode(array($data1));
+//            $data = implode(array($data2));
+//            $data = implode(array($data3));
+//            $data = implode(array($data4));
             $data1 = array($data1);
             $data2 = array($data2);
             $data3 = array($data3);
@@ -164,4 +221,44 @@ class Original extends Model
         }
     }
 
+
+    public static function original_add($school_name,$original_name,$original_howtime,$original_class
+        ,$original_time,$original_author,$original_info,$data1,$data2,$data3)
+    {
+        $cnt = self::create([
+                'school_name' => $school_name,
+                'original_name' => $original_name,
+                'original_howtime' => $original_howtime,
+                'original_class' => $original_class,
+                'original_time' => $original_time,
+                'original_author' => $original_author,
+                'original_info' => $original_info,
+                'original_mp3' => $data1,
+                'original_word' => $data2,
+                'commitment' => $data3,
+            ]);
+        return $cnt;
+    }
+
+    public static function original_change($school_name,$original_name,$original_howtime,$original_class
+        ,$original_time,$original_author,$original_info,$data1,$data2,$data3)
+    {
+        $cnt = self::where('school_name',$school_name)
+            ->where('original_name',$original_name)
+            ->update([
+            'school_name' => $school_name,
+            'original_name' => $original_name,
+            'original_howtime' => $original_howtime,
+            'original_class' => $original_class,
+            'original_time' => $original_time,
+            'original_author' => $original_author,
+            'original_info' => $original_info,
+            'original_mp3' => $data1,
+            'original_word' => $data2,
+            'commitment' => $data3,
+        ]);
+        return $cnt;
+    }
 }
+
+

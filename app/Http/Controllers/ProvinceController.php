@@ -2,13 +2,63 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Province;
 use App\Models\Original;
 use App\Models\Singsong;
+use App\Models\Province;
 use Illuminate\Http\Request;
+
+
 
 class ProvinceController extends Controller
 {
+
+    /*
+     * 省/市级端获取所有审核记录
+     */
+    public function get_all_audit_trail(Request $request)
+    {
+        $table_name = $request['table_name'];
+        $state = $request['state'];
+        if($table_name == 'original')
+        {
+            $res = Original::get_trail($state);
+            return $res ?
+                json_success('获取成功', $res, 200) :
+                json_fail('获取失败', null, 100);
+        }
+        if($table_name == 'singsong')
+        {
+            $res = Singsong::get_trail($state);
+            return $res ?
+                json_success('获取成功', $res, 200) :
+                json_fail('获取失败', null, 100);
+        }
+    }
+
+
+    /*
+     * 省/市级端通过学校名查询审核信息
+     */
+    public function audit_trail_by_schoolname(Request $request)
+    {
+        $table_name = $request['table_name'];
+        $state = $request['state'];
+        $school_name = $request['school_name'];
+        if($table_name == 'original')
+        {
+            $res = Original::select_trail($state,$school_name);
+            return $res ?
+                json_success('获取成功', $res, 200) :
+                json_fail('获取失败', null, 100);
+        }
+        if($table_name == 'singsong')
+        {
+            $res = Singsong::select_trail($state,$school_name);
+            return $res ?
+                json_success('获取成功', $res, 200) :
+                json_fail('获取失败', null, 100);
+        }
+    }
     /**
      * 注册
      * @param Request $registeredRequest

@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Original;
+use App\Models\OriginalManage;
+use App\Models\OriginalSong;
+use App\Models\OriginalWord;
+use App\Models\Singsong;
 use App\Models\Admin;
 use App\Models\School;
+use App\services\OSS;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SchoolController extends Controller
 {
@@ -30,6 +37,75 @@ class SchoolController extends Controller
         }
     }
 
+    public function school_look_singsong(Request $request)
+    {
+        $school_name = auth('api')->user()->school_name;
+        $res = Singsong::select_singsong_info($school_name);
+        return $res ?
+            json_success('获取成功', $res, 200) :
+            json_fail('获取失败', null, 100);
+    }
+
+    /**
+     * 查看原创歌曲信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function school_look_original(Request $request)
+    {
+        $school_name = auth('api')->user()->school_name;
+        $res = DB::table('original')
+            ->leftjoin('original_manage','original.school_name','=','original_manage.school_name')
+            ->leftjoin('original_song','original.school_name','=','original_song.school_name')
+            ->leftjoin('original_word','original.school_name','=','original_word.school_name')
+            ->select('original.*','original_manage.manage_name','original_manage.manage_phone','original_song.song_name','original_song.song_phone','original_song.song_card','original_word.word_name','original_word.word_phone','original_word.word_card')
+            ->get();
+        return $res ?
+            json_success('获取成功', $res, 200) :
+            json_fail('获取失败', null, 100);
+    }
+
+
+    /**
+     * 填报/修改传唱信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function school_singsong(Request $request)
+    {
+        $school_name = auth('api')->user()->school_name;
+        $cot = DB::table('singsong')->where('school_name',$school_name)->count();
+        if ($cot == 0)
+        {
+            $singsong_name = $request['singsong_name'];
+            $singsong_howtime = $request['singsong_howtime'];
+            $singsong_time = $request['singsong_time'];
+            $singsong_author= $request['singsong_author'];
+            $file = $request['singsong_url'];
+            $data = self::upload($file);
+            $res = Singsong::singsong_create($school_name,$singsong_name,$singsong_howtime,$singsong_time,$singsong_author,$file);
+            return $res?
+                json_success('填报成功!',$res,  200):
+                json_fail('填报失败',null, 100 ) ;
+        }
+        if ($cot == 1)
+        {
+            $singsong_name = $request['singsong_name'];
+            $singsong_howtime = $request['singsong_howtime'];
+            $singsong_time = $request['singsong_time'];
+            $singsong_author= $request['singsong_author'];
+            $file = $request['singsong_url'];
+            $data = self::upload($file);
+            $res = Singsong::singsong_update($school_name,$singsong_name,$singsong_howtime,$singsong_time,$singsong_author,$file);
+            return $res?
+                json_success('修改成功!',$res,  200):
+                json_fail('修改失败',null, 100 ) ;
+        }else
+        {
+            return  json_fail('传唱作品只能上传一个',null, 100 ) ;
+        }
+    }
+
 
     /**
      * @param Request $request
@@ -37,7 +113,6 @@ class SchoolController extends Controller
      */
     public function login(Request $request)
     {
-
         $credentials = self::credentials($request);   //从前端获取账号密码
         //以手机号登录测试，具体根据自己的业务逻辑
         //    $user = DB::table('users')->first();
@@ -110,5 +185,95 @@ class SchoolController extends Controller
         $registeredInfo = $request->except('password_confirmation');
         $registeredInfo['password'] = bcrypt($registeredInfo['password']);
         return $registeredInfo;
+    }
+    /**
+     * 填报原创信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function add_school_original(Request $request)
+    {
+        $school_name = auth('api')->user()->school_name;
+        $cot = DB::table('original')->where('school_name',$school_name)->count();
+        if ($cot !== 2)
+        {
+            $original_name = $request['original_name'];
+            $original_howtime = $request['original_howtime'];
+            $original_class = $request['original_class'];
+            $original_time= $request['original_time'];
+            $original_author = $request['original_author'];
+            $original_info = $request['original_info'];
+            $original_mp3 = $request['original_word'];
+            $original_word = $request['original_word'];
+            $commitment = $request['commitment'];
+            $manage= $request['manage'];
+            $song = $request['song'];
+            $word= $request['word'];
+            $data1 = self::upload($original_mp3);
+            $data2 = self::upload($commitment);
+            $data3 = self::upload($original_word);
+            $res1 = Original::original_add($school_name,$original_name,$original_howtime,$original_class
+            ,$original_time,$original_author,$original_info,$data1,$data2,$data3);
+            $res2 = OriginalManage::original_add($school_name,$manage,$original_name);
+            $res3 = OriginalSong::original_add($school_name,$song,$original_name);
+            $res4 = OriginalWord::original_add($school_name,$word,$original_name);
+            return $res1?
+                json_success('填报成功!',$res1,  200):
+                json_fail('填报失败',null, 100 ) ;
+        }else
+        {
+            return  json_fail('原创作品只能上传两个',null, 100 ) ;
+        }
+    }
+
+    /**
+     * 修改填报信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function change_school_original(Request $request)
+    {
+        $school_name = auth('api')->user()->school_name;
+            $original_name = $request['original_name'];
+            $original_howtime = $request['original_howtime'];
+            $original_class = $request['original_class'];
+            $original_time= $request['original_time'];
+            $original_author = $request['original_author'];
+            $original_info = $request['original_info'];
+            $original_mp3 = $request['original_word'];
+            $original_word = $request['original_word'];
+            $commitment = $request['commitment'];
+            $manage= $request['manage'];
+            $song = $request['song'];
+            $word= $request['word'];
+            $data1 = self::upload($original_mp3);
+            $data2 = self::upload($commitment);
+            $data3 = self::upload($original_word);
+            $res1 = Original::original_change($school_name,$original_name,$original_howtime,$original_class
+                ,$original_time,$original_author,$original_info,$data1,$data2,$data3);
+            $res2 = OriginalManage::original_change($school_name,$manage,$original_name);
+            $res3 = OriginalSong::original_change($school_name,$song,$original_name);
+            $res4 = OriginalWord::original_change($school_name,$word,$original_name);
+            return $res1?
+                json_success('修改成功!',$res1,  200):
+                json_fail('修改失败',null, 100 ) ;
+    }
+
+
+
+    /**
+     * OSS
+     * @param $file
+     * @return string
+     */
+    public function upload($file){
+        $tmppath = $file->getRealPath();//获取文件的真实路径
+        $fileName = rand(1000,9999).$file->getFilename().time().date('ymd').'.'.$file->getClientOriginalExtension();
+        //拼接文件名
+        $pathName = date('Y-m/d').'/'.$fileName;
+        OSS::publicUpload('wangerting',$pathName,$tmppath,['ContentType'=>'inline']);
+        //获取文件URl
+        $url  =OSS::getPublicObjectURL('wangerting',$pathName);
+        return $url;
     }
 }
