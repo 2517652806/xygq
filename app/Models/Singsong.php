@@ -210,7 +210,7 @@ class Singsong extends Model
     }
 
 
-    public static function singsong_update($school_name,$singsong_name,$singsong_howtime,$singsong_time,$singsong_author,$file)
+    public static function singsong_update($school_name,$singsong_name,$singsong_howtime,$singsong_time,$singsong_author,$data)
     {
         $cnt = self::where('school_name', $school_name)
             ->update([
@@ -218,7 +218,7 @@ class Singsong extends Model
                 'singsong_howtime' => $singsong_howtime,
                 'singsong_time' => $singsong_time,
                 'singsong_author' => $singsong_author,
-                'singsong_url' => $file,
+                'singsong_url' => $data,
             ]);
         return $cnt;
     }

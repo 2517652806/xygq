@@ -96,7 +96,7 @@ class SchoolController extends Controller
             $singsong_author= $request['singsong_author'];
             $file = $request['singsong_url'];
             $data = self::upload($file);
-            $res = Singsong::singsong_update($school_name,$singsong_name,$singsong_howtime,$singsong_time,$singsong_author,$file);
+            $res = Singsong::singsong_update($school_name,$singsong_name,$singsong_howtime,$singsong_time,$singsong_author,$data);
             return $res?
                 json_success('修改成功!',$res,  200):
                 json_fail('修改失败',null, 100 ) ;
@@ -267,6 +267,7 @@ class SchoolController extends Controller
      * @return string
      */
     public function upload($file){
+//        $file =file('file');
         $tmppath = $file->getRealPath();//获取文件的真实路径
         $fileName = rand(1000,9999).$file->getFilename().time().date('ymd').'.'.$file->getClientOriginalExtension();
         //拼接文件名
