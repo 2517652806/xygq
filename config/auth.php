@@ -45,6 +45,18 @@ return [
             'driver' => 'jwt',
             'provider' => 'users',
         ],
+        'admin' => [
+            'driver' => 'jwt',
+            'provider' => 'admins',
+        ],
+        'city' => [
+            'driver' => 'jwt',
+            'provider' => 'citys',
+        ],
+        'province' => [
+            'driver' => 'jwt',
+            'provider' => 'provinces',
+        ]
     ],
 
     /*
@@ -67,9 +79,20 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\School::class,
         ],
-
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+        'citys' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\City::class,
+        ],
+        'provinces' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Province::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
