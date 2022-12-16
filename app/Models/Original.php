@@ -82,10 +82,6 @@ class Original extends Model
                 ->where('original.id', $id)
                 ->where('original_state', '=', $state)
                 ->get();
-//            $data = implode(array($data1));
-//            $data = implode(array($data2));
-//            $data = implode(array($data3));
-//            $data = implode(array($data4));
             $data1 = array($data1);
             $data2 = array($data2);
             $data3 = array($data3);

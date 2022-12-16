@@ -1,6 +1,8 @@
 <?php
 
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,17 +18,12 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/get_all_song','ProvinceController@getAllSong');//省/市级端获取传唱所有节目
-Route::post('/get_song_by_schoolname','ProvinceController@getSongBySchoolName');//省/市级端通过学校名获取传唱所有节目
-Route::post('/get_song_info','ProvinceController@getSongInfo');//获取节目审批详情
-Route::post('/songs_overrule','ProvinceController@songsOverrule');//节目批量驳回
-Route::post('/song_overrule','ProvinceController@songOverrule');//节目驳回
-Route::post('/song_pass','ProvinceController@songPass');//节目通过
 
-Route::post('registered','SchoolController@registered');//注册
-Route::post('school_login','SchoolController@login');//学校端登录
-Route::post('admin_login','AdminController@login');//管理员登录
-Route::post('login_province','ProvinceController@login');//管理员登录
-Route::post('login_city','CityController@login');//管理员登录
-Route::post('school_password','SchoolController@updatePassword')->middleware('jwt.role:user','jwt.auth');//学校端修改密码
-Route::post('admin_modify_account','SchoolController@updateSchool');//学校端修改学校账号
+
+
+Route::post('admin_delete','AdminController@admin_delete');//删除学校
+Route::post('admin_reset','AdminController@admin_reset');//重置学校密码
+Route::post('admin_state','AdminController@admin_state');//账号状态
+Route::post('admin_add','AdminController@admin_add');//添加学校
+Route::get('admin_rendering','AdminController@admin_rendering');//渲染学校信息
+Route::post('admin_search','AdminController@admin_search'); //搜索学校
