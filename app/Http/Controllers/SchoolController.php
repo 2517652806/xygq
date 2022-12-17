@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\School2;
 use App\Http\Requests\SchoolLoginRequest;
-use App\Http\Requests\School2;
 use App\Models\Original;
 use App\Models\OriginalManage;
 use App\Models\OriginalSong;
