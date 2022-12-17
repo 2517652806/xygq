@@ -73,7 +73,7 @@ class Admin extends Model
 
     //搜索学校
     public static function admin_search($school_name){
-        $data = DB::table('school')->where('school_name','like',$school_name)->get();
+        $data = DB::table('school')->where('school_name','like','%'.$school_name.'%')->get();
 
         return $data;
 
