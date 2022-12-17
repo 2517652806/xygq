@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CityLoginRequest;
 use App\Models\City;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class CityController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function registered(Request $registeredRequest)
+    public function registered(CityLoginRequest $registeredRequest)
     {
         $count = City::checknumber($registeredRequest);   //检测账号密码是否存在
         if($count == 0)
@@ -34,7 +35,7 @@ class CityController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function login(CityLoginRequest $request)
     {
 
         $credentials = self::credentials($request);   //从前端获取账号密码

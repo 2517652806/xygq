@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Http\Requests\AdminLoginRequest;
+use App\Http\Requests\SchoolNameRequest;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 
@@ -13,7 +16,7 @@ class AdminController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function registered(Request $registeredRequest)
+    public function registered(AdminLoginRequest $registeredRequest)
     {
         $count = Admin::checknumber($registeredRequest);   //检测账号密码是否存在
         if($count == 0)
@@ -34,7 +37,7 @@ class AdminController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function login(AdminLoginRequest $request)
     {
 
         $credentials = self::credentials($request);   //从前端获取账号密码
@@ -89,7 +92,7 @@ class AdminController extends Controller
 
 
     //删除学校
-    public static function admin_delete(Request $request){
+    public static function admin_delete(SchoolNameRequest $request){
         $school_name = $request['school_name'];
         $res = Admin::admin_delete($school_name);
         return $res?
@@ -97,7 +100,7 @@ class AdminController extends Controller
             json_fail("操作失败!",null,100);
     }
     //重置学校密码
-    public static function admin_reset(Request $request){
+    public static function admin_reset(SchoolNameRequest $request){
         $school_name = $request['school_name'];
         $school_password = '123456';
         $password = (new AdminController)->adminhandle($school_password);
@@ -108,7 +111,7 @@ class AdminController extends Controller
     }
 
     //账号状态
-    public static function admin_state(Request $request){
+    public static function admin_state(SchoolNameRequest $request){
         $school_name = $request['school_name'];
         $res = Admin::admin_state($school_name);
         return $res?
@@ -117,7 +120,7 @@ class AdminController extends Controller
     }
 
     //添加学校
-    public static function admin_add(Request $request){
+    public static function admin_add(SchoolNameRequest $request){
         $school_name = $request['school_name'];
         $school_password = '123456';
         $password = (new AdminController)->adminhandle($school_password);
@@ -140,7 +143,7 @@ class AdminController extends Controller
 
 
     //搜索学校
-    public static function admin_search(Request $request){
+    public static function admin_search(SchoolNameRequest $request){
         $school_name = $request['school_name'];
         $res = Admin::admin_search($school_name);
         return $res?

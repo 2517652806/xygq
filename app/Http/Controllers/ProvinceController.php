@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProvinceLoginRequest;
 use App\Http\Requests\ProvinceRequest1;
 use App\Http\Requests\ProvinceRequest2;
 use App\Http\Requests\ProvinceRequest3;
@@ -69,7 +70,7 @@ class ProvinceController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function registered(Request $registeredRequest)
+    public function registered(ProvinceLoginRequest $registeredRequest)
     {
         $count = Province::checknumber($registeredRequest);   //检测账号密码是否存在
         if($count == 0)
@@ -90,7 +91,7 @@ class ProvinceController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function login(ProvinceLoginRequest $request)
     {
 
         $credentials = self::credentials($request);   //从前端获取账号密码

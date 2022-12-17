@@ -44,7 +44,7 @@ Route::post('admin_login','AdminController@login');//超级管理员登录
 Route::post('login_province','ProvinceController@login');//省级端登录
 Route::post('login_city','CityController@login');//市级端登录
 Route::post('school_password','SchoolController@updatePassword')->middleware('jwt.role:user','jwt.auth');//学校端修改密码
-Route::post('admin_modify_account','SchoolController@updateSchool')->middleware('jwt.role:user','jwt.auth');//学校端修改学校账号
+Route::post('admin_modify_account','SchoolController@updateSchool');//学校端修改学校账号
 Route::post('school_singsong','SchoolController@school_singsong')->middleware('jwt.role:user','jwt.auth');//填报/修改传唱信息
 Route::post('add_school_original','SchoolController@add_school_original')->middleware('jwt.role:user','jwt.auth');//填报原创信息
 Route::post('change_school_original','SchoolController@change_school_original')->middleware('jwt.role:user','jwt.auth');//修改原创信息
