@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\School2;
 use App\Models\Original;
 use App\Models\OriginalManage;
 use App\Models\OriginalSong;
@@ -67,11 +68,11 @@ class SchoolController extends Controller
 
 
     /**
-     * 填报/修改传唱信息
-     * @param Request $request
+     *  填报/修改传唱信息
+     * @param School $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function school_singsong(Request $request)
+    public function school_singsong(\App\Http\Requests\School $request)
     {
         $school_name = auth('api')->user()->school_name;
         $cot = DB::table('singsong')->where('school_name',$school_name)->count();
@@ -83,7 +84,8 @@ class SchoolController extends Controller
             $singsong_author= $request['singsong_author'];
             $file = $request['singsong_url'];
             $data = self::upload($file);
-            $res = Singsong::singsong_create($school_name,$singsong_name,$singsong_howtime,$singsong_time,$singsong_author,$data);
+            $res = Singsong::singsong_create($school_name,$singsong_name,
+                $singsong_howtime,$singsong_time,$singsong_author,$data);
             return $res?
                 json_success('填报成功!',$res,  200):
                 json_fail('填报失败',null, 100 ) ;
@@ -95,8 +97,10 @@ class SchoolController extends Controller
             $singsong_time = $request['singsong_time'];
             $singsong_author= $request['singsong_author'];
             $file = $request['singsong_url'];
+            dd($file);
             $data = self::upload($file);
-            $res = Singsong::singsong_update($school_name,$singsong_name,$singsong_howtime,$singsong_time,$singsong_author,$data);
+            $res = Singsong::singsong_update($school_name,$singsong_name,
+                $singsong_howtime,$singsong_time,$singsong_author,$data);
             return $res?
                 json_success('修改成功!',$res,  200):
                 json_fail('修改失败',null, 100 ) ;
@@ -191,7 +195,7 @@ class SchoolController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function add_school_original(Request $request)
+    public function add_school_original(School2 $request)
     {
         $school_name = auth('api')->user()->school_name;
         $cot = DB::table('original')->where('school_name',$school_name)->count();
@@ -231,7 +235,7 @@ class SchoolController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function change_school_original(Request $request)
+    public function change_school_original(School2 $request)
     {
         $school_name = auth('api')->user()->school_name;
             $original_name = $request['original_name'];
