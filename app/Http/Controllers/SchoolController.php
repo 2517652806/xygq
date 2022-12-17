@@ -267,6 +267,7 @@ class SchoolController extends Controller
      * @return string
      */
     public function upload($file){
+//        $file =file('file');
         $tmppath = $file->getRealPath();//获取文件的真实路径
         $fileName = rand(1000,9999).$file->getFilename().time().date('ymd').'.'.$file->getClientOriginalExtension();
         //拼接文件名
