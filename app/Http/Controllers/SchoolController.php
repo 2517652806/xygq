@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\School2;
 use App\Http\Requests\SchoolLoginRequest;
+use App\Http\Requests\School2;
 use App\Models\Original;
 use App\Models\OriginalManage;
 use App\Models\OriginalSong;
@@ -98,7 +99,6 @@ class SchoolController extends Controller
             $singsong_time = $request['singsong_time'];
             $singsong_author= $request['singsong_author'];
             $file = $request['singsong_url'];
-            dd($file);
             $data = self::upload($file);
             $res = Singsong::singsong_update($school_name,$singsong_name,
                 $singsong_howtime,$singsong_time,$singsong_author,$data);
