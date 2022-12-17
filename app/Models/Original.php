@@ -164,7 +164,7 @@ class Original extends Model
     public static function songsOverrule($state, $id)
     {
         try {
-            $id = array($id);
+            $id = explode(',',$id);
             $num = count($id);
             for ($i = 0; $i < $num; ++$i) {
                 self::where('id', $id[$i])

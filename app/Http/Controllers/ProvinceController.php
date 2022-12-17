@@ -229,7 +229,6 @@ class ProvinceController extends Controller
         $table =  $request['table_name'];
         $state = $request['state'];
         $id = $request['id'];
-
         if ($table == 'original')
         {
             $data = Original::songsOverrule($state,$id);
