@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProvinceRequest1;
+use App\Http\Requests\ProvinceRequest2;
+use App\Http\Requests\ProvinceRequest3;
+use App\Http\Requests\ProvinceRequest4;
 use App\Models\Original;
 use App\Models\Singsong;
 use App\Models\Province;
@@ -15,7 +19,7 @@ class ProvinceController extends Controller
     /*
      * 省/市级端获取所有审核记录
      */
-    public function get_all_audit_trail(Request $request)
+    public function get_all_audit_trail(ProvinceRequest1 $request)
     {
         $table_name = $request['table_name'];
         $state = $request['state'];
@@ -39,7 +43,7 @@ class ProvinceController extends Controller
     /*
      * 省/市级端通过学校名查询审核信息
      */
-    public function audit_trail_by_schoolname(Request $request)
+    public function audit_trail_by_schoolname(ProvinceRequest2 $request)
     {
         $table_name = $request['table_name'];
         $state = $request['state'];
@@ -138,7 +142,7 @@ class ProvinceController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse|void
      */
-    public function getAllSong(Request $request)
+    public function getAllSong(ProvinceRequest1 $request)
     {
         $table =  $request['table_name'];
         $state = $request['state'];
@@ -164,7 +168,7 @@ class ProvinceController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse|void
      */
-    public function getSongBySchoolName(Request $request)
+    public function getSongBySchoolName(ProvinceRequest2 $request)
     {
         $table =  $request['table_name'];
         $state = $request['state'];
@@ -190,7 +194,7 @@ class ProvinceController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse|void
      */
-    public function getSongInfo(Request $request)
+    public function getSongInfo(ProvinceRequest3 $request)
     {
         $table =  $request['table_name'];
         $state = $request['state'];
@@ -219,7 +223,7 @@ class ProvinceController extends Controller
      * @return \Illuminate\Http\JsonResponse|void
      */
 
-    public function songsOverrule(Request $request)
+    public function songsOverrule(ProvinceRequest3 $request)
     {
         $table =  $request['table_name'];
         $state = $request['state'];
@@ -249,7 +253,7 @@ class ProvinceController extends Controller
      * @return \Illuminate\Http\JsonResponse|void
      */
 
-    public function songOverrule(Request $request)
+    public function songOverrule(ProvinceRequest4 $request)
     {
         $table =  $request['table_name'];
         $state = $request['state'];
@@ -280,7 +284,7 @@ class ProvinceController extends Controller
      * @return \Illuminate\Http\JsonResponse|void
      */
 
-    public function songPass(Request $request)
+    public function songPass(ProvinceRequest3 $request)
     {
         $table =  $request['table_name'];
         $state = $request['state'];

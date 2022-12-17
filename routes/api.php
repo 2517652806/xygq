@@ -21,8 +21,8 @@ Route::post('get_all_audit_trail', 'ProvinceController@get_all_audit_trail');//�
 Route::post('audit_trail_by_schoolname', 'ProvinceController@audit_trail_by_schoolname');//省/市级端通过学校名查询审核信息
 
 
-Route::get('school_look_singsong', 'SchoolController@school_look_singsong');//查看传唱歌曲信息
-Route::get('school_look_original', 'SchoolController@school_look_original');//查看原创歌曲信息
+Route::get('school_look_singsong', 'SchoolController@school_look_singsong')->middleware('jwt.role:user','jwt.auth');//查看传唱歌曲信息
+Route::get('school_look_original', 'SchoolController@school_look_original')->middleware('jwt.role:user','jwt.auth');//查看原创歌曲信息
 Route::post('/get_all_song','ProvinceController@getAllSong');//省/市级端获取传唱所有节目
 Route::post('/get_song_by_schoolname','ProvinceController@getSongBySchoolName');//省/市级端通过学校名获取传唱所有节目
 Route::post('/get_song_info','ProvinceController@getSongInfo');//获取节目审批详情
@@ -40,14 +40,14 @@ Route::get('admin_rendering','AdminController@admin_rendering');//渲染学校�
 Route::post('admin_search','AdminController@admin_search'); //搜索学校
 Route::post('registered','SchoolController@registered');//注册
 Route::post('school_login','SchoolController@login');//学校端登录
-Route::post('admin_login','AdminController@login');//管理员登录
-Route::post('login_province','ProvinceController@login');//管理员登录
-Route::post('login_city','CityController@login');//管理员登录
+Route::post('admin_login','AdminController@login');//超级管理员登录
+Route::post('login_province','ProvinceController@login');//省级端登录
+Route::post('login_city','CityController@login');//市级端登录
 Route::post('school_password','SchoolController@updatePassword')->middleware('jwt.role:user','jwt.auth');//学校端修改密码
-Route::post('admin_modify_account','SchoolController@updateSchool');//学校端修改学校账号
-Route::post('school_singsong','SchoolController@school_singsong');//填报/修改传唱信息
-Route::post('add_school_original','SchoolController@add_school_original');//填报原创信息
-Route::post('change_school_original','SchoolController@change_school_original');//修改原创信息
+Route::post('admin_modify_account','SchoolController@updateSchool')->middleware('jwt.role:user','jwt.auth');//学校端修改学校账号
+Route::post('school_singsong','SchoolController@school_singsong')->middleware('jwt.role:user','jwt.auth');//填报/修改传唱信息
+Route::post('add_school_original','SchoolController@add_school_original')->middleware('jwt.role:user','jwt.auth');//填报原创信息
+Route::post('change_school_original','SchoolController@change_school_original')->middleware('jwt.role:user','jwt.auth');//修改原创信息
 
 
 Route::post('upload','SchoolController@upload');//测试OSS

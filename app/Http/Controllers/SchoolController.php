@@ -83,7 +83,7 @@ class SchoolController extends Controller
             $singsong_author= $request['singsong_author'];
             $file = $request['singsong_url'];
             $data = self::upload($file);
-            $res = Singsong::singsong_create($school_name,$singsong_name,$singsong_howtime,$singsong_time,$singsong_author,$file);
+            $res = Singsong::singsong_create($school_name,$singsong_name,$singsong_howtime,$singsong_time,$singsong_author,$data);
             return $res?
                 json_success('填报成功!',$res,  200):
                 json_fail('填报失败',null, 100 ) ;
@@ -96,7 +96,7 @@ class SchoolController extends Controller
             $singsong_author= $request['singsong_author'];
             $file = $request['singsong_url'];
             $data = self::upload($file);
-            $res = Singsong::singsong_update($school_name,$singsong_name,$singsong_howtime,$singsong_time,$singsong_author,$file);
+            $res = Singsong::singsong_update($school_name,$singsong_name,$singsong_howtime,$singsong_time,$singsong_author,$data);
             return $res?
                 json_success('修改成功!',$res,  200):
                 json_fail('修改失败',null, 100 ) ;
