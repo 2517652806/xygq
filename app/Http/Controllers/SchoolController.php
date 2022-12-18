@@ -83,10 +83,9 @@ class SchoolController extends Controller
             $singsong_howtime = $request['singsong_howtime'];
             $singsong_time = $request['singsong_time'];
             $singsong_author= $request['singsong_author'];
-            $file = $request['singsong_url'];
-            $data = self::upload($file);
+            $singsong_url = $request['singsong_url'];
             $res = Singsong::singsong_create($school_name,$singsong_name,
-                $singsong_howtime,$singsong_time,$singsong_author,$data);
+                $singsong_howtime,$singsong_time,$singsong_author,$singsong_url);
             return $res?
                 json_success('填报成功!',$res,  200):
                 json_fail('填报失败',null, 100 ) ;
@@ -97,10 +96,9 @@ class SchoolController extends Controller
             $singsong_howtime = $request['singsong_howtime'];
             $singsong_time = $request['singsong_time'];
             $singsong_author= $request['singsong_author'];
-            $file = $request['singsong_url'];
-            $data = self::upload($file);
+            $singsong_url = $request['singsong_url'];
             $res = Singsong::singsong_update($school_name,$singsong_name,
-                $singsong_howtime,$singsong_time,$singsong_author,$data);
+                $singsong_howtime,$singsong_time,$singsong_author,$singsong_url);
             return $res?
                 json_success('修改成功!',$res,  200):
                 json_fail('修改失败',null, 100 ) ;
@@ -207,17 +205,14 @@ class SchoolController extends Controller
             $original_time= $request['original_time'];
             $original_author = $request['original_author'];
             $original_info = $request['original_info'];
-            $original_mp3 = $request['original_word'];
+            $original_mp3 = $request['original_mp3'];
             $original_word = $request['original_word'];
             $commitment = $request['commitment'];
             $manage= $request['manage'];
             $song = $request['song'];
             $word= $request['word'];
-            $data1 = self::upload($original_mp3);
-            $data2 = self::upload($commitment);
-            $data3 = self::upload($original_word);
             $res1 = Original::original_add($school_name,$original_name,$original_howtime,$original_class
-            ,$original_time,$original_author,$original_info,$data1,$data2,$data3);
+            ,$original_time,$original_author,$original_info,$original_mp3,$original_word,$commitment);
             $res2 = OriginalManage::original_add($school_name,$manage,$original_name);
             $res3 = OriginalSong::original_add($school_name,$song,$original_name);
             $res4 = OriginalWord::original_add($school_name,$word,$original_name);
@@ -244,17 +239,14 @@ class SchoolController extends Controller
             $original_time= $request['original_time'];
             $original_author = $request['original_author'];
             $original_info = $request['original_info'];
-            $original_mp3 = $request['original_word'];
+            $original_mp3 = $request['original_mp3'];
             $original_word = $request['original_word'];
             $commitment = $request['commitment'];
             $manage= $request['manage'];
             $song = $request['song'];
             $word= $request['word'];
-            $data1 = self::upload($original_mp3);
-            $data2 = self::upload($commitment);
-            $data3 = self::upload($original_word);
             $res1 = Original::original_change($school_name,$original_name,$original_howtime,$original_class
-                ,$original_time,$original_author,$original_info,$data1,$data2,$data3);
+                ,$original_time,$original_author,$original_info,$original_mp3,$original_word,$commitment);
             $res2 = OriginalManage::original_change($school_name,$manage,$original_name);
             $res3 = OriginalSong::original_change($school_name,$song,$original_name);
             $res4 = OriginalWord::original_change($school_name,$word,$original_name);
@@ -270,8 +262,8 @@ class SchoolController extends Controller
      * @param $file
      * @return string
      */
-    public function upload($file){
-//        $file =file('file');
+    public function upload(Request $request){
+        $file = $request->file('file');//读取file文件
         $tmppath = $file->getRealPath();//获取文件的真实路径
         $fileName = rand(1000,9999).$file->getFilename().time().date('ymd').'.'.$file->getClientOriginalExtension();
         //拼接文件名
@@ -279,6 +271,8 @@ class SchoolController extends Controller
         OSS::publicUpload('wangerting',$pathName,$tmppath,['ContentType'=>'inline']);
         //获取文件URl
         $url  =OSS::getPublicObjectURL('wangerting',$pathName);
-        return $url;
+        return $url?
+            json_success('上传成功!',$url,  200):
+            json_fail('上传失败',null, 100 ) ;
     }
 }

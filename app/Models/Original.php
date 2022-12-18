@@ -226,7 +226,7 @@ class Original extends Model
 
 
     public static function original_add($school_name,$original_name,$original_howtime,$original_class
-        ,$original_time,$original_author,$original_info,$data1,$data2,$data3)
+        ,$original_time,$original_author,$original_info,$original_mp3,$original_word,$commitment)
     {
         $cnt = self::create([
                 'school_name' => $school_name,
@@ -236,15 +236,15 @@ class Original extends Model
                 'original_time' => $original_time,
                 'original_author' => $original_author,
                 'original_info' => $original_info,
-                'original_mp3' => $data1,
-                'original_word' => $data2,
-                'commitment' => $data3,
+                'original_mp3' => $original_mp3,
+                'original_word' => $original_word,
+                'commitment' => $commitment,
             ]);
         return $cnt;
     }
 
     public static function original_change($school_name,$original_name,$original_howtime,$original_class
-        ,$original_time,$original_author,$original_info,$data1,$data2,$data3)
+        ,$original_time,$original_author,$original_info,$original_mp3,$original_word,$commitment)
     {
         $cnt = self::where('school_name',$school_name)
             ->where('original_name',$original_name)
@@ -256,9 +256,9 @@ class Original extends Model
             'original_time' => $original_time,
             'original_author' => $original_author,
             'original_info' => $original_info,
-            'original_mp3' => $data1,
-            'original_word' => $data2,
-            'commitment' => $data3,
+            'original_mp3' => $original_mp3,
+            'original_word' => $original_word,
+            'commitment' => $commitment,
         ]);
         return $cnt;
     }

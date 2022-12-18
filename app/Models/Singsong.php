@@ -213,7 +213,7 @@ class Singsong extends Model
 
 
     public static function singsong_update($school_name,$singsong_name,
-                                           $singsong_howtime,$singsong_time,$singsong_author,$data)
+                                           $singsong_howtime,$singsong_time,$singsong_author,$singsong_url)
     {
         $cnt = self::where('school_name', $school_name)
             ->update([
@@ -221,13 +221,13 @@ class Singsong extends Model
                 'singsong_howtime' => $singsong_howtime,
                 'singsong_time' => $singsong_time,
                 'singsong_author' => $singsong_author,
-                'singsong_url' => $data,
+                'singsong_url' => $singsong_url,
             ]);
         return $cnt;
     }
 
     public static function singsong_create($school_name,$singsong_name,
-                                           $singsong_howtime,$singsong_time,$singsong_author,$data)
+                                           $singsong_howtime,$singsong_time,$singsong_author,$singsong_url)
     {
         $cnt = self::where('school_name', $school_name)
             ->create([
@@ -236,7 +236,7 @@ class Singsong extends Model
                 'singsong_howtime' => $singsong_howtime,
                 'singsong_time' => $singsong_time,
                 'singsong_author' => $singsong_author,
-                'singsong_url' => $data,
+                'singsong_url' => $singsong_url,
             ]);
         return $cnt;
     }
