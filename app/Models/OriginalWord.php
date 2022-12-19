@@ -89,9 +89,9 @@ class OriginalWord extends Model
                 ->update([
                 'school_name' => $school_name,
                 'original_name' => $original_name,
-                'word_name' => $word[$i][0],
-                'word_phone' => $word[$i][1],
-                'word_card' => $word[$i][2],
+                'word_name' => $word[$i]['name'],
+                'word_phone' => $word[$i]['num'],
+                'word_card' => $word[$i]['idcard'],
             ]);
         }
 

@@ -98,8 +98,7 @@ class Original extends Model
     {
         try {
             $data = self::select('school_name', 'id', 'original_name')
-                ->orwhere('school_name', 'like', '%' . $schoolName . '%')
-                ->where('school_name', $schoolName )
+                ->where('school_name', 'like', '%' . $schoolName . '%')
                 ->where('original_state', '=', $state)
                 ->get();
             return $data;

@@ -53,9 +53,9 @@ class OriginalSong extends Model
             $cnt = self::create([
                 'school_name' => $school_name,
                 'original_name' => $original_name,
-                'song_name' => $song[$i][0],
-                'song_phone' => $song[$i][1],
-                'song_card' => $song[$i][2],
+                'song_name' => $song[$i]['name'],
+                'song_phone' => $song[$i]['num'],
+                'song_card' => $song[$i]['idcard'],
             ]);
         }
 
