@@ -120,4 +120,15 @@ class OriginalSong extends Model
             return false;
         }
     }
+
+
+    public static function school_lool_original($school_name,$original_name)
+    {
+        //获取曲作者信息
+        $data = self::select('song_name', 'song_phone', 'song_card')
+            ->where('school_name', $school_name)
+            ->where('original_name', '=', $original_name)
+            ->get();
+        return $data;
+    }
 }

@@ -103,4 +103,15 @@ class OriginalManage extends Model
             return false;
         }
     }
+
+
+    public static function school_lool_original($school_name,$original_name)
+    {
+        //获取负责人信息
+        $data = self::select('manage_name', 'manage_phone')
+            ->where('school_name', $school_name)
+            ->where('original_name', '=', $original_name)
+            ->get();
+        return $data;
+    }
 }

@@ -98,7 +98,7 @@ class Original extends Model
     {
         try {
             $data = self::select('school_name', 'id', 'original_name')
-//                ->where('school_name', 'like', '%' . $schoolName . '%')
+                ->orwhere('school_name', 'like', '%' . $schoolName . '%')
                 ->where('school_name', $schoolName )
                 ->where('original_state', '=', $state)
                 ->get();
@@ -130,10 +130,12 @@ class Original extends Model
             $data2 = array($data2);
             $data3 = array($data3);
             $data4 = array($data4);
+
             $data = array_merge($data1,$data2,$data3,$data4);
             return $data;
         } catch (\Exception $e) {
             logError('获取节目列表失败！', [$e->getMessage()]);
+            dd($e->getMessage());
             return false;
         }
     }
@@ -246,6 +248,34 @@ class Original extends Model
         ]);
         return $cnt;
     }
+
+
+
+    public static function school_lool_original($school_name,$original_name)
+    {
+
+            //获取作品信息
+            $data = self::select('original_class', 'original_name', 'original_author', 'school_name', 'original_howtime',
+                'original_time', 'original_mp3', 'original_info', 'original_word', 'commitment')
+                ->where('school_name', $school_name)
+                ->where('original_name', '=', $original_name)
+                ->get();
+            return $data;
+
+    }
+
+
+
+    public static function rendering_original_info($school_name,$original_name)
+    {
+        $data =self::select('school_name','original_name','id')
+            ->where('original_name',$original_name)
+            ->where('school_name',$school_name)
+            ->get();
+        return $data;
+
+    }
+
 }
 
 

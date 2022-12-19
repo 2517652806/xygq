@@ -21,8 +21,8 @@ Route::post('get_all_audit_trail', 'ProvinceController@get_all_audit_trail');//�
 Route::post('audit_trail_by_schoolname', 'ProvinceController@audit_trail_by_schoolname');//省/市级端通过学校名查询审核信息
 
 
-Route::get('school_look_singsong', 'SchoolController@school_look_singsong')->middleware('jwt.role:user','jwt.auth');//查看传唱歌曲信息
-Route::get('school_look_original', 'SchoolController@school_look_original')->middleware('jwt.role:user','jwt.auth');//查看原创歌曲信息
+Route::post('school_look_singsong', 'SchoolController@school_look_singsong')->middleware('jwt.role:user','jwt.auth');//查看传唱歌曲信息
+Route::post('school_look_original', 'SchoolController@school_look_original')->middleware('jwt.role:user','jwt.auth');//查看原创歌曲信息
 Route::post('/get_all_song','ProvinceController@getAllSong');//省/市级端获取传唱所有节目
 Route::post('/get_song_by_schoolname','ProvinceController@getSongBySchoolName');//省/市级端通过学校名获取传唱所有节目
 Route::post('/get_song_info','ProvinceController@getSongInfo');//获取节目审批详情
@@ -51,3 +51,5 @@ Route::post('change_school_original','SchoolController@change_school_original')-
 
 
 Route::post('upload','SchoolController@upload');//测试OSS
+Route::post('rendering_original_info','SchoolController@rendering_original_info');//渲染原创歌曲信息
+Route::get('rendering_singsong_info','SchoolController@rendering_singsong_info');//渲染传唱歌曲信息

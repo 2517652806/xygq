@@ -240,4 +240,14 @@ class Singsong extends Model
             ]);
         return $cnt;
     }
+
+
+    public static function rendering_singsong_info($school_name)
+    {
+        $data =self::select('school_name','singsong_name','id')
+            ->where('school_name',$school_name)
+            ->get();
+        return $data;
+
+    }
 }

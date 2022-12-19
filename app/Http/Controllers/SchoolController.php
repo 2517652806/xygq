@@ -56,14 +56,18 @@ class SchoolController extends Controller
     public function school_look_original(Request $request)
     {
         $school_name = auth('api')->user()->school_name;
-        $res = DB::table('original')
-            ->leftjoin('original_manage','original.school_name','=','original_manage.school_name')
-            ->leftjoin('original_song','original.school_name','=','original_song.school_name')
-            ->leftjoin('original_word','original.school_name','=','original_word.school_name')
-            ->select('original.*','original_manage.manage_name','original_manage.manage_phone','original_song.song_name','original_song.song_phone','original_song.song_card','original_word.word_name','original_word.word_phone','original_word.word_card')
-            ->get();
-        return $res ?
-            json_success('获取成功', $res, 200) :
+        $original_name = $request['original_name'];
+        $data1 = Original::school_lool_original($school_name,$original_name);
+        $data2 = OriginalManage::school_lool_original($school_name,$original_name);
+        $data3 = OriginalSong::school_lool_original($school_name,$original_name);
+        $data4 =OriginalWord::school_lool_original($school_name,$original_name);
+        $data1 = array($data1);
+        $data2 = array($data2);
+        $data3 = array($data3);
+        $data4 = array($data4);
+        $data = array_merge($data1,$data2,$data3,$data4);
+        return $data ?
+            json_success('获取成功', $data, 200) :
             json_fail('获取失败', null, 100);
     }
 
@@ -274,5 +278,30 @@ class SchoolController extends Controller
         return $url?
             json_success('上传成功!',$url,  200):
             json_fail('上传失败',null, 100 ) ;
+    }
+
+
+    /**
+     * 渲染原创歌曲信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function rendering_original_info(Request $request)
+    {
+        $school_name = auth('api')->user()->school_name;
+        $original_name = $request['original_name'];
+        $res = Original::rendering_original_info($school_name,$original_name);
+        return $res?
+            json_success('渲染成功!',$res,  200):
+            json_fail('渲染失败',null, 100 ) ;
+    }
+
+    public function rendering_singsong_info(Request $request)
+    {
+        $school_name = auth('api')->user()->school_name;
+        $res = Singsong::rendering_singsong_info($school_name);
+        return $res?
+            json_success('渲染成功!',$res,  200):
+            json_fail('渲染失败',null, 100 ) ;
     }
 }
