@@ -44,8 +44,8 @@ class OriginalManage extends Model
                 ->update([
                 'school_name' => $school_name,
                 'original_name' => $original_name,
-                'manage_name' => $manage[$i][0],
-                'manage_phone' => $manage[$i][1],
+                'manage_name' => $manage[$i]['name'],
+                'manage_phone' => $manage[$i]['num'],
             ]);
         }
 

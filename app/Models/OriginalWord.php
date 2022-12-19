@@ -19,37 +19,15 @@ class OriginalWord extends Model
 
     public static function original_add($school_name,$word,$original_name)
     {
-//        $sites = array
-//        (
-//            array
-//            (
-//                "菜鸟教程",
-//                "http://www.runoob.com",
-//                "1"
-//            ),
-//            array
-//            (
-//                "Google 搜索",
-//                "http://www.google.com",
-//                "2"
-//            ),
-//            array
-//            (
-//                "淘宝",
-//                "http://www.taobao.com",
-//                "2"
-//            )
-//        );
-//        $cot = count($sites);
         $cot = count($word);
         for ($i = 0; $i < $cot;$i++)
         {
             $cnt = self::create([
                 'school_name' => $school_name,
                 'original_name' => $original_name,
-                'word_name' => $word[$i][0],
-                'word_phone' => $word[$i][1],
-                'word_card' => $word[$i][2],
+                'word_name' => $word[$i]['name'],
+                'word_phone' => $word[$i]['num'],
+                'word_card' => $word[$i]['idcard'],
             ]);
         }
 
@@ -59,28 +37,7 @@ class OriginalWord extends Model
 
     public static function original_change($school_name,$word,$original_name)
     {
-//        $sites = array
-//        (
-//            array
-//            (
-//                "菜鸟教程",
-//                "http://www.runoob.com",
-//                "1"
-//            ),
-//            array
-//            (
-//                "Google 搜索",
-//                "http://www.google.com",
-//                "2"
-//            ),
-//            array
-//            (
-//                "淘宝",
-//                "http://www.taobao.com",
-//                "2"
-//            )
-//        );
-//        $cot = count($sites);
+
         $cot = count($word);
         for ($i = 0; $i < $cot;$i++)
         {
