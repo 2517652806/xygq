@@ -266,10 +266,9 @@ class Original extends Model
 
 
 
-    public static function rendering_original_info($school_name,$original_name)
+    public static function rendering_original_info($school_name)
     {
         $data =self::select('school_name','original_name','id')
-            ->where('original_name',$original_name)
             ->where('school_name',$school_name)
             ->get();
         return $data;

@@ -51,5 +51,5 @@ Route::post('change_school_original','SchoolController@change_school_original')-
 
 
 Route::post('upload','SchoolController@upload');//测试OSS
-Route::post('rendering_original_info','SchoolController@rendering_original_info');//渲染原创歌曲信息
+Route::get('rendering_original_info','SchoolController@rendering_original_info');//渲染原创歌曲信息
 Route::get('rendering_singsong_info','SchoolController@rendering_singsong_info');//渲染传唱歌曲信息

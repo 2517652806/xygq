@@ -289,8 +289,7 @@ class SchoolController extends Controller
     public function rendering_original_info(Request $request)
     {
         $school_name = auth('api')->user()->school_name;
-        $original_name = $request['original_name'];
-        $res = Original::rendering_original_info($school_name,$original_name);
+        $res = Original::rendering_original_info($school_name);
         return $res?
             json_success('渲染成功!',$res,  200):
             json_fail('渲染失败',null, 100 ) ;
