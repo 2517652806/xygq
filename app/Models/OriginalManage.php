@@ -88,4 +88,19 @@ class OriginalManage extends Model
 
         return $cnt;
     }
+
+    //获取负责人信息
+    public static function get_manage_info($school_name,$original_name)
+    {
+        try {
+            $data2 = self::select('manage_name', 'manage_phone')
+                ->where('school_name', $school_name)
+                ->where('original_name', $original_name)
+                ->get();
+            return $data2;
+        } catch (\Exception $e) {
+            logError('获取失败！', [$e->getMessage()]);
+            return false;
+        }
+    }
 }

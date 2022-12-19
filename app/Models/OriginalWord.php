@@ -97,4 +97,18 @@ class OriginalWord extends Model
 
         return $cnt;
     }
+    //获取词作者信息
+    public static function get_word_info($school_name,$original_name)
+    {
+        try {
+            $data4 = self::select('word_name', 'word_phone', 'word_card')
+                ->where('school_name', $school_name)
+                ->where('original_name', $original_name)
+                ->get();
+            return $data4;
+        } catch (\Exception $e) {
+            logError('获取失败！', [$e->getMessage()]);
+            return false;
+        }
+    }
 }

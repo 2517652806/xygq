@@ -26,7 +26,7 @@ class ProvinceLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'city_account' => 'required',
+            'province_account' => 'required',
             'password' => 'required'
         ];
     }

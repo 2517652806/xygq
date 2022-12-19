@@ -118,38 +118,22 @@ class Original extends Model
                 ->where('original.id', $id)
                 ->where('original_state', '=', $state)
                 ->get();
+            $school_name = $data1[0]->attributes['school_name'];
+            $original_name = $data1[0]->attributes['original_name'];
             //获取负责人信息
-            $data2 = self::select('manage_name', 'manage_phone')
-                ->leftjoin('original_manage', 'original_manage.school_name', '=', 'original.school_name')
-                ->where('original.id', $id)
-                ->where('original_state', '=', $state)
-                ->get();
+            $data2 = OriginalManage::get_manage_info($school_name,$original_name);
             //获取曲作者信息
-            $data3 = self::select('song_name', 'song_phone', 'song_card')
-                ->leftjoin('original_song', 'original_song.school_name', '=', 'original.school_name')
-                ->where('original.id', $id)
-                ->where('original_state', '=', $state)
-                ->get();
+            $data3 = OriginalSong::get_song_info($school_name,$original_name);
             //获取词作者信息
-            $data4 = self::select('word_name', 'word_phone', 'word_card')
-                ->leftjoin('original_word', 'original_word.school_name', '=', 'original.school_name')
-                ->where('original.id', $id)
-                ->where('original_state', '=', $state)
-                ->get();
-//            $data = implode(array($data1));
-//            $data = implode(array($data2));
-//            $data = implode(array($data3));
-//            $data = implode(array($data4));
+            $data4 = OriginalWord::get_word_info($school_name,$original_name);
             $data1 = array($data1);
             $data2 = array($data2);
             $data3 = array($data3);
             $data4 = array($data4);
-
             $data = array_merge($data1,$data2,$data3,$data4);
             return $data;
         } catch (\Exception $e) {
             logError('获取节目列表失败！', [$e->getMessage()]);
-            dd($e->getMessage());
             return false;
         }
     }

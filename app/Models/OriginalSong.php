@@ -103,4 +103,21 @@ class OriginalSong extends Model
 
         return $cnt;
     }
+
+
+
+    //获取曲作者信息
+    public static function get_song_info($school_name,$original_name)
+    {
+        try {
+            $data3 = self::select('song_name', 'song_phone', 'song_card')
+                ->where('school_name', $school_name)
+                ->where('original_name', $original_name)
+                ->get();
+            return $data3;
+        } catch (\Exception $e) {
+            logError('获取失败！', [$e->getMessage()]);
+            return false;
+        }
+    }
 }
