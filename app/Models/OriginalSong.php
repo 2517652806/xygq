@@ -51,11 +51,11 @@ class OriginalSong extends Model
             $cnt = self::where('school_name',$school_name)
                 ->where('original_name',$original_name)
                 ->update([
-                'school_name' => $school_name,
-                'original_name' => $original_name,
-                'song_name' => $song[$i]['name'],
-                'song_phone' => $song[$i]['num'],
-                'song_card' => $song[$i]['idcard'],
+                    'school_name' => $school_name,
+                    'original_name' => $original_name,
+                    'song_name' => $song[$i]['song_name'],
+                    'song_phone' => $song[$i]['song_phone'],
+                    'song_card' => $song[$i]['song_card'],
             ]);
         }
 

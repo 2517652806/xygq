@@ -277,7 +277,7 @@ class SchoolController extends Controller
         $url  =OSS::getPublicObjectURL('wangerting',$pathName);
         return $url?
             json_success('上传成功!',$url,  200):
-            json_fail('上传失败',null, 100 ) ;
+            json_fail('上传失败',null, 100 );
     }
 
 
