@@ -9,12 +9,12 @@ class OSS {
      *  经典网络下可选：杭州、上海、青岛、北京、张家口、深圳、香港、硅谷、弗吉尼亚、新加坡、悉尼、日本、法兰克福、迪拜
      *  VPC 网络下可选：杭州、上海、青岛、北京、张家口、深圳、硅谷、弗吉尼亚、新加坡、悉尼、日本、法兰克福、迪拜
      */
-    private $city = '上海';
+    private $city = '北京';
     // 经典网络 or VPC
     private $networkType = '经典网络';
 
-    private $AccessKeyId = 'LTAI5tMdX6HARxBkQz24ySD7';
-    private $AccessKeySecret = '4cpxSkkPsPTmpvNg3PFYCY67RQ2rM2';
+    private $AccessKeyId = 'LTAI5tAneUzrUa1GQoHxd8Vn';
+    private $AccessKeySecret = 'Y2wVKTu86kjnvoPjzhfO5NBfBmsJs8';
     private $ossClient;
     /**
      * 私有初始化 API，非 API，不用关注

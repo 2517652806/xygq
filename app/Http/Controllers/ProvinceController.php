@@ -229,16 +229,17 @@ class ProvinceController extends Controller
         $table =  $request['table_name'];
         $state = $request['state'];
         $id = $request['id'];
+        $why = $request['why'];
         if ($table == 'original')
         {
-            $data = Original::songsOverrule($state,$id);
+            $data = Original::songsOverrule($state,$id,$why);
             return $data ?
                 json_success('操作成功!', $data, 200) :
                 json_fail('操作失败!', null, 100);
         }
         if ($table == 'singsong')
         {
-            $data = Singsong::songsOverrule($state,$id);
+            $data = Singsong::songsOverrule($state,$id,$why);
             return $data ?
                 json_success('操作成功!', $data, 200) :
                 json_fail('操作失败!', null, 100);

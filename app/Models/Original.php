@@ -146,7 +146,7 @@ class Original extends Model
      * @param $id
      * @return false|int
      */
-    public static function songsOverrule($state, $id)
+    public static function songsOverrule($state, $id,$why)
     {
         try {
             $num = strlen($id);
@@ -156,7 +156,8 @@ class Original extends Model
             for ($i = 0; $i < $num; ++$i) {
                 self::where('id', $id[$i])
                     ->update([
-                        'original_state' => $state
+                        'original_state' => $state,
+                        'original_why' => $why
                     ]);
             }
             return $num;
