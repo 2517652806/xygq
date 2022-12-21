@@ -80,6 +80,11 @@ class SchoolController extends Controller
     public function school_singsong(\App\Http\Requests\School $request)
     {
         $school_name = auth('api')->user()->school_name;
+        $school_name1 = $request['school_name'];
+        if($school_name !== $school_name1)
+        {
+            return json_fail('输入的学校名字错误',null, 100 ) ;
+        }
         $cot = DB::table('singsong')->where('school_name',$school_name)->count();
         if ($cot == 0)
         {
@@ -205,6 +210,11 @@ class SchoolController extends Controller
     public function add_school_original(School2 $request)
     {
         $school_name = auth('api')->user()->school_name;
+        $school_name1 = $request['school_name'];
+        if($school_name !== $school_name1)
+        {
+            return json_fail('输入的学校名字错误',null, 100 ) ;
+        }
         $cot = DB::table('original')->where('school_name',$school_name)->count();
         if ($cot !== 2)
         {
@@ -242,6 +252,11 @@ class SchoolController extends Controller
     public function change_school_original(School2 $request)
     {
         $school_name = auth('api')->user()->school_name;
+        $school_name1 = $request['school_name'];
+        if($school_name !== $school_name1)
+        {
+            return json_fail('输入的学校名字错误',null, 100 ) ;
+        }
             $original_name = $request['original_name'];
             $original_howtime = $request['original_howtime'];
             $original_class = $request['original_class'];
