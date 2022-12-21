@@ -103,4 +103,23 @@ class School extends Authenticatable implements JWTSubject
             return false;
         }
     }
+
+    /*
+     * 修改判重
+     */
+    public static function checknumberNew($request)
+    {
+        $student_job_number = $request['new_schoolName'];
+        try{
+            $count = School::select('new_schoolName')
+                ->where('school_name',$student_job_number)
+                ->count();
+            //echo "该账号存在个数：".$count;
+            //echo "\n";
+            return $count;
+        }catch (\Exception $e) {
+            logError("账号查询失败！", [$e->getMessage()]);
+            return false;
+        }
+    }
 }

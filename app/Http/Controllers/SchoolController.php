@@ -166,10 +166,15 @@ class SchoolController extends Controller
     public function updateSchool(Request $request){
         $school_name = $request['school_name'];
         $new_schoolName = $request['new_schoolName'];
-        $res = School::updateSchool($school_name,$new_schoolName);
-        return $res?
-            json_success('修改成功!',$res,  200):
-            json_fail('登录失败!账号或密码错误',null, 100 ) ;
+        $count = School::checknumberNew($request);   //检测账号密码是否存在
+        if($count == 0){
+            $res = School::updateSchool($school_name,$new_schoolName);
+            return $res?
+                json_success('修改成功!',$res,  200):
+                json_fail('登录失败!账号或密码错误',null, 100 ) ;
+        }else{
+            return json_success('注册失败!该工号已经注册过了！',null,100  ) ;
+        }
     }
     //封装token的返回方式
     protected function respondWithToken($token, $msg)
@@ -272,9 +277,9 @@ class SchoolController extends Controller
         $fileName = rand(1000,9999).$file->getFilename().time().date('ymd').'.'.$file->getClientOriginalExtension();
         //拼接文件名
         $pathName = date('Y-m/d').'/'.$fileName;
-        OSS::publicUpload('wangerting',$pathName,$tmppath,['ContentType'=>'inline']);
+        OSS::publicUpload('zhouyangtest',$pathName,$tmppath,['ContentType'=>'inline']);
         //获取文件URl
-        $url  =OSS::getPublicObjectURL('wangerting',$pathName);
+        $url  =OSS::getPublicObjectURL('zhouyangtest',$pathName);
         return $url?
             json_success('上传成功!',$url,  200):
             json_fail('上传失败',null, 100 );
