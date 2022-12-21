@@ -140,6 +140,14 @@ class SchoolController extends Controller
 //            return response()->json(['error' => 'Unauthorized'],401);
 //        }
 //        return self::respondWithToken($token, '登录成功!');   //可选择返回方式
+        $school_name = $request['school_name'];
+        $school_state = DB::table('school')
+            ->where('school_name','=',$school_name)
+            ->value('school_state');
+        if ($school_state == 0)
+        {
+            return json_fail('该账号被禁用',null, 101 ) ;
+        }
         return $token?
             json_success('登录成功!',$token,  200):
             json_fail('登录失败!账号或密码错误',null, 100 ) ;
