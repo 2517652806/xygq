@@ -27,8 +27,7 @@ class ProvinceRequest2 extends FormRequest
     {
         return [
             'table_name' => 'required',
-            'state' => 'required',
-            'school_name' => 'required'
+            'state' => 'required'
         ];
     }
 

@@ -22,7 +22,7 @@ class Original extends Model
         try {
             if($state == '0')
             {
-                $res = self::where('original_state','<=','2')
+                $res = self::whereBetween('original_state',[1,2])
                     ->select('school_name','id','updated_at','original_state')
                     ->get();
                 return $res;
@@ -48,7 +48,7 @@ class Original extends Model
             if($state == '0')
             {
                 $res = self::orwhere('school_name','like','%'.$school_name.'%')
-                    ->where('original_state','<=','2')
+                    ->whereBetween('original_state',[1,2])
                     ->select('school_name','id','updated_at','original_state')
                     ->get();
                 return $res;

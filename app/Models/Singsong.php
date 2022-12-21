@@ -22,7 +22,7 @@ class Singsong extends Model
         try {
             if ($state == '0')
             {
-                $res = self::where('singsong_state','<=','2')
+                $res = self::whereBetween('singsong_state',[1,2])
                     ->select('school_name','id','updated_at','singsong_state')
                     ->get();
                 return $res;
@@ -49,7 +49,7 @@ class Singsong extends Model
             if ($state == '0')
             {
                 $res = self::orwhere('school_name','like','%'.$school_name.'%')
-                    ->where('singsong_state','<=','2')
+                    ->whereBetween('singsong_state',[1,2])
                     ->select('school_name','id','updated_at','singsong_state')
                     ->get();
                 return $res;

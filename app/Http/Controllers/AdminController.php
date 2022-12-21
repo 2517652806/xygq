@@ -143,7 +143,7 @@ class AdminController extends Controller
 
 
     //搜索学校
-    public static function admin_search(SchoolNameRequest $request){
+    public static function admin_search(Request $request){
         $school_name = $request['school_name'];
         $res = Admin::admin_search($school_name);
         return $res?

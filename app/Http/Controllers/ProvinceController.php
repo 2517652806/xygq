@@ -177,13 +177,14 @@ class ProvinceController extends Controller
         if ($table == 'original')
         {
             $data = Original::getSongBySchoolName($state,$schoolName);
+
             return $data ?
                 json_success('获取成功!', $data, 200) :
                 json_fail('获取失败!', null, 100);
         }
         if ($table == 'singsong')
         {
-            $data = Singsong::getSongBySchoolName($state,$schoolName);
+            $data = Singsong::getSongBySchoolName($state, $schoolName);
             return $data ?
                 json_success('获取成功!', $data, 200) :
                 json_fail('获取失败!', null, 100);
