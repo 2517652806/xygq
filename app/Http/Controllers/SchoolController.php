@@ -235,7 +235,40 @@ class SchoolController extends Controller
     {
         $school_name = auth('api')->user()->school_name;
         $cot = DB::table('original')->where('school_name',$school_name)->count();
-        if ($cot !== 2)
+        if($cot == 1)
+        {
+            $original_name1=DB::table('original')
+                ->where('school_name',$school_name)
+                ->value('original_name');
+            $original_name = $request['original_name'];
+            if($original_name1 == $original_name)
+            {
+                return   json_fail('不能提交相同名字的原创歌曲',null, 110 ) ;
+            }else
+            {
+                $original_name = $request['original_name'];
+                $original_howtime = $request['original_howtime'];
+                $original_class = $request['original_class'];
+                $original_time= $request['original_time'];
+                $original_author = $request['original_author'];
+                $original_info = $request['original_info'];
+                $original_mp3 = $request['original_mp3'];
+                $original_word = $request['original_word'];
+                $commitment = $request['commitment'];
+                $manage= $request['manage'];
+                $song = $request['song'];
+                $word= $request['word'];
+                $res1 = Original::original_add($school_name,$original_name,$original_howtime,$original_class
+                    ,$original_time,$original_author,$original_info,$original_mp3,$original_word,$commitment);
+                $res2 = OriginalManage::original_add($school_name,$manage,$original_name);
+                $res3 = OriginalSong::original_add($school_name,$song,$original_name);
+                $res4 = OriginalWord::original_add($school_name,$word,$original_name);
+                return $res1?
+                    json_success('填报成功!',$res1,  200):
+                    json_fail('填报失败',null, 100 ) ;
+            }
+        }
+        if ($cot == 0)
         {
             $original_name = $request['original_name'];
             $original_howtime = $request['original_howtime'];
@@ -257,7 +290,8 @@ class SchoolController extends Controller
             return $res1?
                 json_success('填报成功!',$res1,  200):
                 json_fail('填报失败',null, 100 ) ;
-        }else
+        }
+        if($cot == 2)
         {
             return  json_fail('原创作品只能上传两个',null, 100 ) ;
         }
