@@ -73,7 +73,7 @@ class SchoolController extends Controller
 
 
     /**
-     *  填报/修改传唱信息
+     *  填报传唱信息
      * @param School $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -98,25 +98,36 @@ class SchoolController extends Controller
             return $res?
                 json_success('填报成功!',$res,  200):
                 json_fail('填报失败',null, 100 ) ;
-        }
-        if ($cot == 1)
-        {
-            $singsong_name = $request['singsong_name'];
-            $singsong_howtime = $request['singsong_howtime'];
-            $singsong_time = $request['singsong_time'];
-            $singsong_author= $request['singsong_author'];
-            $singsong_url = $request['singsong_url'];
-            $res = Singsong::singsong_update($school_name,$singsong_name,
-                $singsong_howtime,$singsong_time,$singsong_author,$singsong_url);
-            return $res?
-                json_success('修改成功!',$res,  200):
-                json_fail('修改失败',null, 100 ) ;
-        }else
+        } else
         {
             return  json_fail('传唱作品只能上传一个',null, 100 ) ;
         }
     }
 
+    /**
+     * 原创歌曲修改
+     * @param \App\Http\Requests\School $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function school_singsong_change(\App\Http\Requests\School $request)
+    {
+        $school_name = auth('api')->user()->school_name;
+        $school_name1 = $request['school_name'];
+        if($school_name !== $school_name1)
+        {
+            return json_fail('输入的学校名字错误',null, 100 ) ;
+        }
+        $singsong_name = $request['singsong_name'];
+        $singsong_howtime = $request['singsong_howtime'];
+        $singsong_time = $request['singsong_time'];
+        $singsong_author= $request['singsong_author'];
+        $singsong_url = $request['singsong_url'];
+        $res = Singsong::singsong_update($school_name,$singsong_name,
+            $singsong_howtime,$singsong_time,$singsong_author,$singsong_url);
+        return $res?
+            json_success('修改成功!',$res,  200):
+            json_fail('修改失败',null, 100 ) ;
+    }
 
     /**
      * @param Request $request
