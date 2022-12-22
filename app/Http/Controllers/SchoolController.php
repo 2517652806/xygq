@@ -39,6 +39,11 @@ class SchoolController extends Controller
         }
     }
 
+    /**
+     * 查看传唱歌曲详情
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function school_look_singsong(Request $request)
     {
         $school_name = auth('api')->user()->school_name;

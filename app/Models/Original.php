@@ -253,7 +253,7 @@ class Original extends Model
 
             //获取作品信息
             $data = self::select('original_class', 'original_name', 'original_author', 'school_name', 'original_howtime',
-                'original_time', 'original_mp3', 'original_info', 'original_word', 'commitment')
+                'original_time', 'original_mp3', 'original_info', 'original_word', 'commitment','original_state','original_why')
                 ->where('school_name', $school_name)
                 ->where('original_name', '=', $original_name)
                 ->get();
