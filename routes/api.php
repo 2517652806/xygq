@@ -53,3 +53,6 @@ Route::post('school_singsong_change','SchoolController@school_singsong_change')-
 Route::post('upload','SchoolController@upload');//测试OSS
 Route::get('rendering_original_info','SchoolController@rendering_original_info');//渲染原创歌曲信息
 Route::get('rendering_singsong_info','SchoolController@rendering_singsong_info');//渲染传唱歌曲信息
+
+Route::get('school_already_singsong','SchoolController@school_already_singsong');//判断是否可以填表传唱歌曲
+Route::get('school_already_original','SchoolController@school_already_original');//判断是否可以填表原创歌曲

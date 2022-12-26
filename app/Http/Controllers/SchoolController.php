@@ -85,11 +85,6 @@ class SchoolController extends Controller
     public function school_singsong(\App\Http\Requests\School $request)
     {
         $school_name = auth('api')->user()->school_name;
-        $school_name1 = $request['school_name'];
-        if($school_name !== $school_name1)
-        {
-            return json_fail('输入的学校名字错误',null, 100 ) ;
-        }
         $cot = DB::table('singsong')->where('school_name',$school_name)->count();
         if ($cot == 0)
         {
@@ -117,11 +112,6 @@ class SchoolController extends Controller
     public function school_singsong_change(\App\Http\Requests\School $request)
     {
         $school_name = auth('api')->user()->school_name;
-        $school_name1 = $request['school_name'];
-        if($school_name !== $school_name1)
-        {
-            return json_fail('输入的学校名字错误',null, 100 ) ;
-        }
         $singsong_name = $request['singsong_name'];
         $singsong_howtime = $request['singsong_howtime'];
         $singsong_time = $request['singsong_time'];
@@ -370,5 +360,42 @@ class SchoolController extends Controller
         return $res?
             json_success('渲染成功!',$res,  200):
             json_fail('渲染失败',null, 100 ) ;
+    }
+
+
+    /**
+     * 判断是否可以填表原创歌曲
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function school_already_original(Request $request)
+    {
+        $school_name = auth('api')->user()->school_name;
+        $cot = DB::table('original')->where('school_name', $school_name)->count();
+        if($cot == 2)
+        {
+            return  json_fail('原创作品只能上传两个',null, 100 ) ;
+        }else
+        {
+            return  json_success('还可以继续填报!',null,  200);
+        }
+    }
+
+    /**
+     * 判断是否可以填表传唱歌曲
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function school_already_singsong(Request $request)
+    {
+        $school_name = auth('api')->user()->school_name;
+        $cot = DB::table('singsong')->where('school_name', $school_name)->count();
+        if($cot == 1)
+        {
+            return  json_fail('传唱作品只能上传一个',null, 100 ) ;
+        }else
+        {
+            return  json_success('还可以继续填报!',null,  200);
+        }
     }
 }
