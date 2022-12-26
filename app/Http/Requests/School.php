@@ -27,7 +27,6 @@ class School extends FormRequest
     {
         return [
             'singsong_name' => 'required',
-            'school_name' => 'required',
             'singsong_howtime' => 'required',
             'singsong_time' => 'required',
             'singsong_author' => 'required',
